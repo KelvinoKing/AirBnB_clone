@@ -17,3 +17,12 @@ by following this link https://www.airbnb.com/**
 
 	- An API that provides a communication interface between
 	  the front-end and your data (retrieve, create, delete, update them)
+
+## Concepts Learned
+
+- Unittest - and please work all together on tests cases
+- Python packages concept page
+- Serialization/Deserialization
+- *args, **kwargs
+- datetime
+- More coming soon!
