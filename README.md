@@ -1,8 +1,9 @@
-#AirBnB_Clone
+# AirBnB_Clone
+
 **This project is an AirBnB clone. You can check out AirBnB website
 by following this link https://www.airbnb.com/**
 
-##Project Objectives
+## Project Objectives
 
 **After 4 months, it will have a complete web application composed by:**
 
