@@ -14,7 +14,7 @@ class BaseModel(object):
     """
     The class will define all common attributes for other classes
     """
-    def __init__(self, name=None, my_number=None):
+    def __init__(self, name="", my_number=0):
         """
         BaseModel class inherits from object class
         """
