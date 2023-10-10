@@ -19,7 +19,7 @@ by following this link https://www.airbnb.com/**
 	  the front-end and your data (retrieve, create, delete, update them)
 
 ## Concepts Learned
-
+- models
 - Unittest
 - Python packages concept page
 - Serialization/Deserialization
