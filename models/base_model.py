@@ -10,6 +10,7 @@ import uuid
 from datetime import datetime
 from models import storage
 
+
 class BaseModel(object):
     """
     The class will define all common attributes for other classes

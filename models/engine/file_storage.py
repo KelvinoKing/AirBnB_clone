@@ -3,6 +3,7 @@
 """
 import json
 
+
 class FileStorage():
     """The class serializes and deserializes instances
     of JSON file
@@ -13,7 +14,7 @@ class FileStorage():
     def all(self):
         """Returns the dictionary __objects
         """
-        return  self.__objects
+        return self.__objects
 
     def new(self, obj):
         """sets in __objects the obj with key
@@ -37,7 +38,7 @@ class FileStorage():
         from models import base_model
         try:
             with open(self.__file_path, 'r', encoding="utf-8") as f:
-                self.__objects = {k: base_model.BaseModel(**v)
-                        for k, v in json.load(f).items()}
+                self.__objects =
+                {k: base_model.BaseModel(**v) for k, v in json.load(f).items()}
         except Exception:
             pass
