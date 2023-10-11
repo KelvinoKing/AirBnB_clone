@@ -3,7 +3,6 @@
 """
 import json
 
-
 class FileStorage():
     """The class serializes and deserializes instances
     of JSON file
@@ -12,36 +11,38 @@ class FileStorage():
     __objects = {}
 
     @classmethod
-    def all(self):
+    def all(cls):
         """Returns the dictionary __objects
         """
-        return self.__objects
+        return  cls.__objects
 
     @classmethod
-    def new(self, obj):
+    def new(cls, obj):
         """sets in __objects the obj with key
         <obj class name>.id
         """
         key = "{}.{}".format(type(obj).__name__, obj.id)
-        self.__objects[key] = obj.to_dict()
+        print(key)
+        cls.__objects[key] = obj
 
     @classmethod
-    def save(self):
+    def save(cls):
         """serializes __objects to the JSON file (path: __file_path)
         """
-
-        with open(self.__file_path, 'w', encoding="utf-8") as f:
-            json.dump(self.__objects, f)
+        with open(cls.__file_path, 'w', encoding="utf-8") as f:
+            json.dump({k: v.to_dict() for k, v in cls.__objects.items()}, f)
 
     @classmethod
-    def reload(self):
+    def reload(cls):
+        from models import base_model
+
         """deserializes the JSON file to __objects
         (only if the JSON file (__file_path) exists ;
         otherwise, do nothing. If the file doesn’t exist,
         no exception should be raised)
         """
         try:
-            with open(self.__file_path, 'r') as f:
-                self.__objects = json.load(f)
-        except Exception:
+            with open(cls.__file_path, 'r', encoding="utf-8") as f:
+                cls.__objects = {k: base_model.BaseModel(**v) for k, v in json.load(f).items()}
+        except FileNotFoundError:
             pass
