@@ -30,6 +30,9 @@ class BaseModel(object):
                         setattr(self, key, datetime.fromisoformat(value))
                     else:
                         setattr(self, key, value)
+        else:
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.today()
 
     def __str__(self):
         """String representation of the BaseModel
@@ -76,6 +79,12 @@ if __name__ == "__main__":
     my_new_model = BaseModel(**my_model_json)
     print(my_new_model.id)
     print(my_new_model)
+    print(type(my_new_model.created_at))
+
+    print("----------------")
+    my_other_model = BaseModel()
+    print(my_other_model.id)
+    print(my_other_model)
     print(type(my_new_model.created_at))
 
     print("---------------------")
