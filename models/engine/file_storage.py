@@ -10,39 +10,34 @@ class FileStorage():
     __file_path = "file.json"
     __objects = {}
 
-    @classmethod
-    def all(cls):
+    def all(self):
         """Returns the dictionary __objects
         """
-        return  cls.__objects
+        return  self.__objects
 
-    @classmethod
-    def new(cls, obj):
+    def new(self, obj):
         """sets in __objects the obj with key
         <obj class name>.id
         """
         key = "{}.{}".format(type(obj).__name__, obj.id)
-        print(key)
-        cls.__objects[key] = obj
+        self.__objects[key] = obj
 
-    @classmethod
-    def save(cls):
+    def save(self):
         """serializes __objects to the JSON file (path: __file_path)
         """
-        with open(cls.__file_path, 'w', encoding="utf-8") as f:
-            json.dump({k: v.to_dict() for k, v in cls.__objects.items()}, f)
+        with open(self.__file_path, 'w', encoding="utf-8") as f:
+            json.dump({k: v.to_dict() for k, v in self.__objects.items()}, f)
 
-    @classmethod
-    def reload(cls):
-        from models import base_model
-
+    def reload(self):
         """deserializes the JSON file to __objects
         (only if the JSON file (__file_path) exists ;
         otherwise, do nothing. If the file doesn’t exist,
         no exception should be raised)
         """
+        from models import base_model
         try:
-            with open(cls.__file_path, 'r', encoding="utf-8") as f:
-                cls.__objects = {k: base_model.BaseModel(**v) for k, v in json.load(f).items()}
-        except FileNotFoundError:
+            with open(self.__file_path, 'r', encoding="utf-8") as f:
+                self.__objects = {k: base_model.BaseModel(**v)
+                        for k, v in json.load(f).items()}
+        except Exception:
             pass
