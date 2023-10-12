@@ -46,32 +46,15 @@ class HBNBCommand(cmd.Cmd):
         elif len(my_args) == 1:
             print("** instance id missing **")
         elif len(my_args) == 2:
-
             if my_args[0] == "BaseModel":
 
                 # Convert the dictionary of objects returned by storage.all()
                 # to a dictionary of dictionary of objects attributes
                 all_objs = storage.all()
-                new_objs = {}
-                count = 0
-                for k, v in all_objs.items():
-                    new_objs[k] = v.to_dict()
-
-                # First loop takes one doctionary at a time
-                # Second loop compares the keys
-                for k, v in new_objs.items():
-                    if count == 1:
-                        break
-                    new_dict = v
-                    for key, value in new_dict.items():
-                        if key == 'id':
-                            if my_args[1] == v[key]:
-                                print(all_objs[k])
-                                count += 1
-                                break
-                            else:
-                                break
-                if count == 0:
+                returned_obj_id = search(my_args[1], all_objs)
+                if returned_obj_id is not None:
+                    print(all_objs[returned_obj_id])
+                else:
                     print("** no instance found **")
             else:
                 print("** class doesn't exist **")
@@ -86,37 +69,16 @@ class HBNBCommand(cmd.Cmd):
         elif len(my_args) == 1:
             print("** instance id missing **")
         elif len(my_args) == 2:
-
             if my_args[0] == "BaseModel":
-
-                # Convert the dictionary of objects returned by storage.all()
-                # to a dictionary of dictionary of objects attributes
                 all_objs = storage.all()
-                new_objs = {}
-                count = 0
-                for k, v in all_objs.items():
-                    new_objs[k] = v.to_dict()
+                del_obj = search(my_args[1], all_objs)
 
-                # First loop takes one doctionary at a time
-                # Second loop compares the keys
-                for k, v in new_objs.items():
-                    if count == 1:
-                        break
-                    new_dict = v
-                    for key, value in new_dict.items():
-                        if key == 'id':
-                            if my_args[1] == v[key]:
-                                new_key = k
-                                count += 1
-                                break
-                            else:
-                                break
-                if count == 0:
-                    print("** no instance found **")
-                if count == 1:
-                    del all_objs[new_key]
+                if del_obj is not None:
+                    del all_objs[del_obj]
                     for k, v in all_objs.items():
                         v.save()
+                else:
+                    print("** no instance found **")
             else:
                 print("** class doesn't exist **")
 
@@ -161,6 +123,29 @@ def parse(arg):
     """conver arg to a tuple of args and return tuple
     """
     return tuple(map(str, arg.split()))
+
+
+def search(obj_id, all_objs):
+    """searches for object and returns found object or None
+    """
+    new_objs = {}
+
+    for k, v in all_objs.items():
+        new_objs[k] = v.to_dict()
+
+    # First loop takes one dict at a time
+    # second loop compares the keys
+    for k, v in new_objs.items():
+        new_dict = v
+
+        for key, value in new_dict.items():
+            if key == 'id':
+                if obj_id == v[key]:
+                    return k
+            else:
+                break
+
+    return None
 
 
 if __name__ == "__main__":
