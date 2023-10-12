@@ -3,6 +3,7 @@
 """
 import cmd
 import sys
+import models
 from models.base_model import BaseModel
 from models import storage
 
@@ -75,8 +76,7 @@ class HBNBCommand(cmd.Cmd):
 
                 if del_obj is not None:
                     del all_objs[del_obj]
-                    for k, v in all_objs.items():
-                        v.save()
+                    models.storage.save()
                 else:
                     print("** no instance found **")
             else:
@@ -104,6 +104,36 @@ class HBNBCommand(cmd.Cmd):
                 obj_str = v.__str__()
                 obj_rep_str.append(obj_str)
             print(obj_rep_str)
+
+    def do_update(self, arg):
+        """Updates an instance based on class name and id by adding or
+        updating attributes"""
+
+        my_args = parse(arg)
+        if len(my_args) == 0:
+            print("** class name missing **")
+        elif my_args[0] != "BaseModel":
+            print("** class doesn't exist **")
+        elif len(my_args) == 1:
+            print("** instance id missing **")
+        elif len(my_args) >= 2:
+            all_obj = storage.all()
+            returned_obj_id = search(my_args[1], all_obj)
+
+            if returned_obj_id is not None:
+                if len(my_args) == 2:
+                    print("** attribute name missing **")
+                elif len(my_args) == 3:
+                    print("** value missing **")
+                elif len(my_args) >= 4:
+                    obj = all_obj[returned_obj_id]
+                    try:
+                        value = eval(my_args[3])
+                    except Exception:
+                        value = my_args[3]
+                    setattr(obj, my_args[2], value)
+            else:
+                print("** no instance found **")
 
     def do_EOF(self, arg):
         """Exit the console when EOF command is passed"""
