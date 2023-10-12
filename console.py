@@ -120,11 +120,34 @@ class HBNBCommand(cmd.Cmd):
             else:
                 print("** class doesn't exist **")
 
-    def do_EOF(self, line):
+    def do_all(self, arg):
+        """Prints all string rep of all instaces based or not on
+        the class name
+        """
+        my_args = parse(arg)
+
+        all_objs = storage.all()
+        obj_rep_str = []
+
+        if len(my_args) == 1:
+            if my_args[0] == "BaseModel":
+                for k, v in all_objs.items():
+                    obj_str = v.__str__()
+                    obj_rep_str.append(obj_str)
+                print(obj_rep_str)
+            else:
+                print("** class doesn't exist **")
+        else:
+            for k, v in all_objs.items():
+                obj_str = v.__str__()
+                obj_rep_str.append(obj_str)
+            print(obj_rep_str)
+
+    def do_EOF(self, arg):
         """Exit the console when EOF command is passed"""
         return True
 
-    def do_quit(self, line):
+    def do_quit(self, arg):
         """Exits the console when quit command is passed\n"""
         return True
 
