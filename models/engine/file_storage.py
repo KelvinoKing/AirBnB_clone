@@ -38,7 +38,8 @@ class FileStorage():
         from models import base_model
         try:
             with open(self.__file_path, 'r', encoding="utf-8") as f:
-                self.__objects =
-                {k: base_model.BaseModel(**v) for k, v in json.load(f).items()}
+                self.__objects = {
+                        k: base_model.BaseModel(
+                            **v) for k, v in json.load(f).items()}
         except Exception:
             pass
