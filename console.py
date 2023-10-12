@@ -4,6 +4,7 @@
 import cmd
 import sys
 from models.base_model import BaseModel
+from models import storage
 
 
 class HBNBCommand(cmd.Cmd):
@@ -32,6 +33,46 @@ class HBNBCommand(cmd.Cmd):
                 obj = BaseModel()
                 obj.save()
                 print(obj.id)
+            else:
+                print("** class doesn't exist **")
+
+    def do_show(self, arg):
+        """Prints the string representation of an instance based on
+        the class name and id"""
+        my_args = parse(arg)
+
+        if len(my_args) == 0:
+            print("** class name missing **")
+        elif len(my_args) == 1:
+            print("** instance id missing **")
+        elif len(my_args) == 2:
+
+            if my_args[0] == "BaseModel":
+
+                # Convert the dictionary of objects returned by storage.all()
+                # to a dictionary of dictionary of objects attributes
+                all_objs = storage.all()
+                new_objs = {}
+                count = 0
+                for k, v in all_objs.items():
+                    new_objs[k] = v.to_dict()
+
+                # First loop takes one doctionary at a time
+                # Second loop compares the keys
+                for k, v in new_objs.items():
+                    if count == 1:
+                        break
+                    new_dict = v
+                    for key, value in new_dict.items():
+                        if key == 'id':
+                            if my_args[1] == v[key]:
+                                print(all_objs[k])
+                                count += 1
+                                break
+                            else:
+                                break
+                if count == 0:
+                    print("** no instance found **")
             else:
                 print("** class doesn't exist **")
 
