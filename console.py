@@ -132,6 +132,7 @@ class HBNBCommand(cmd.Cmd):
                     except Exception:
                         value = my_args[3]
                     setattr(obj, my_args[2], value)
+                    models.storage.save()
             else:
                 print("** no instance found **")
 
