@@ -27,7 +27,10 @@ class FileStorage():
         """serializes __objects to the JSON file (path: __file_path)
         """
         with open(self.__file_path, 'w', encoding="utf-8") as f:
-            json.dump({k: v.to_dict() for k, v in self.__objects.items()}, f)
+            serialized_data = {
+                    k: v.to_dict() for k, v in self.__objects.items()
+                    }
+            json.dump(serialized_data, f)
 
     def reload(self):
         """deserializes the JSON file to __objects
@@ -35,11 +38,25 @@ class FileStorage():
         otherwise, do nothing. If the file doesn’t exist,
         no exception should be raised)
         """
-        from models import base_model
         try:
             with open(self.__file_path, 'r', encoding="utf-8") as f:
+                data = json.load(f)
                 self.__objects = {
-                        k: base_model.BaseModel(
-                            **v) for k, v in json.load(f).items()}
+                        k: self.create_model_instance(
+                            k, v) for k, v in data.items()}
         except Exception:
             pass
+
+    def create_model_instance(self, key, data):
+        """create an object of the specified class
+        """
+        from models import base_model
+
+        class_name, obj_id = key.split(".")
+        if class_name == "User":
+            from models.user import User
+            model_class = User
+        else:
+            model_class = getattr(base_model, class_name)
+        obj = model_class(**data)
+        return obj

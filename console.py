@@ -5,6 +5,7 @@ import cmd
 import sys
 import models
 from models.base_model import BaseModel
+from models.user import User
 from models import storage
 
 
@@ -34,6 +35,10 @@ class HBNBCommand(cmd.Cmd):
                 obj = BaseModel()
                 obj.save()
                 print(obj.id)
+            elif my_args[0] == "User":
+                obj = User()
+                obj.save()
+                print(obj.id)
             else:
                 print("** class doesn't exist **")
 
@@ -47,11 +52,16 @@ class HBNBCommand(cmd.Cmd):
         elif len(my_args) == 1:
             print("** instance id missing **")
         elif len(my_args) == 2:
+            all_objs = storage.all()
             if my_args[0] == "BaseModel":
-
                 # Convert the dictionary of objects returned by storage.all()
                 # to a dictionary of dictionary of objects attributes
-                all_objs = storage.all()
+                returned_obj_id = search(my_args[1], all_objs)
+                if returned_obj_id is not None:
+                    print(all_objs[returned_obj_id])
+                else:
+                    print("** no instance found **")
+            elif my_args[0] == "User":
                 returned_obj_id = search(my_args[1], all_objs)
                 if returned_obj_id is not None:
                     print(all_objs[returned_obj_id])
@@ -70,10 +80,16 @@ class HBNBCommand(cmd.Cmd):
         elif len(my_args) == 1:
             print("** instance id missing **")
         elif len(my_args) == 2:
+            all_objs = storage.all()
             if my_args[0] == "BaseModel":
-                all_objs = storage.all()
                 del_obj = search(my_args[1], all_objs)
-
+                if del_obj is not None:
+                    del all_objs[del_obj]
+                    models.storage.save()
+                else:
+                    print("** no instance found **")
+            elif my_args[0] == "User":
+                del_obj = search(my_args[1], all_objs)
                 if del_obj is not None:
                     del all_objs[del_obj]
                     models.storage.save()
