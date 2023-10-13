@@ -6,6 +6,11 @@ import sys
 import models
 from models.base_model import BaseModel
 from models.user import User
+from models.place import Place
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.review import Review
 from models import storage
 
 
@@ -14,6 +19,9 @@ class HBNBCommand(cmd.Cmd):
     """
 
     prompt = "(hbnb) "
+    global my_classes
+    my_classes = [
+            "BaseModel", "User", "Place", "City", "Amenity", "Review", "State"]
 
     if sys.stdin.isatty():
         pass
@@ -27,7 +35,7 @@ class HBNBCommand(cmd.Cmd):
         and prints the id
         """
         my_args = parse(arg)
-        my_classes = ["BaseModel", "User"]
+        global my_classes
 
         if len(my_args) == 0:
             print("** class name missing **")
@@ -44,7 +52,7 @@ class HBNBCommand(cmd.Cmd):
         """Prints the string representation of an instance based on
         the class name and id"""
         my_args = parse(arg)
-        my_classes = ["BaseModel", "User"]
+        global my_classes
 
         if len(my_args) == 0:
             print("** class name missing **")
@@ -67,7 +75,7 @@ class HBNBCommand(cmd.Cmd):
         """Destroys an instance based on the class name and id
         """
         my_args = parse(arg)
-        my_classes = ["BaseModel", "User"]
+        global my_classes
 
         if len(my_args) == 0:
             print("** class name missing **")
@@ -90,7 +98,7 @@ class HBNBCommand(cmd.Cmd):
         the class name
         """
         my_args = parse(arg)
-        my_classes = ["BaseModel", "User"]
+        global my_classes
 
         all_objs = storage.all()
         obj_rep_str = []
@@ -114,7 +122,7 @@ class HBNBCommand(cmd.Cmd):
         updating attributes"""
 
         my_args = parse(arg)
-        my_classes = ["BaseModel", "User"]
+        global my_classes
 
         if len(my_args) == 0:
             print("** class name missing **")

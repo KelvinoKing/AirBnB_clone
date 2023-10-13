@@ -56,6 +56,21 @@ class FileStorage():
         if class_name == "User":
             from models.user import User
             model_class = User
+        elif class_name == "Place":
+            from models.place import Place
+            model_class = Place
+        elif class_name == "State":
+            from models.state import State
+            model_class = State
+        elif class_name == "City":
+            from models.city import City
+            model_class = City
+        elif class_name == "Amenity":
+            from models.amenity import Amenity
+            model_class = Amenity
+        elif class_name == "Review":
+            from models.review import Review
+            model_class = Review
         else:
             model_class = getattr(base_model, class_name)
         obj = model_class(**data)
