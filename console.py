@@ -27,16 +27,14 @@ class HBNBCommand(cmd.Cmd):
         and prints the id
         """
         my_args = parse(arg)
+        my_classes = ["BaseModel", "User"]
 
         if len(my_args) == 0:
             print("** class name missing **")
         else:
-            if my_args[0] == "BaseModel":
-                obj = BaseModel()
-                obj.save()
-                print(obj.id)
-            elif my_args[0] == "User":
-                obj = User()
+            class_name = my_args[0]
+            if class_name in my_classes:
+                obj = globals()[class_name]()
                 obj.save()
                 print(obj.id)
             else:
@@ -46,6 +44,7 @@ class HBNBCommand(cmd.Cmd):
         """Prints the string representation of an instance based on
         the class name and id"""
         my_args = parse(arg)
+        my_classes = ["BaseModel", "User"]
 
         if len(my_args) == 0:
             print("** class name missing **")
@@ -53,15 +52,9 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
         elif len(my_args) == 2:
             all_objs = storage.all()
-            if my_args[0] == "BaseModel":
+            if my_args[0] in my_classes:
                 # Convert the dictionary of objects returned by storage.all()
                 # to a dictionary of dictionary of objects attributes
-                returned_obj_id = search(my_args[1], all_objs)
-                if returned_obj_id is not None:
-                    print(all_objs[returned_obj_id])
-                else:
-                    print("** no instance found **")
-            elif my_args[0] == "User":
                 returned_obj_id = search(my_args[1], all_objs)
                 if returned_obj_id is not None:
                     print(all_objs[returned_obj_id])
@@ -74,6 +67,7 @@ class HBNBCommand(cmd.Cmd):
         """Destroys an instance based on the class name and id
         """
         my_args = parse(arg)
+        my_classes = ["BaseModel", "User"]
 
         if len(my_args) == 0:
             print("** class name missing **")
@@ -81,14 +75,7 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
         elif len(my_args) == 2:
             all_objs = storage.all()
-            if my_args[0] == "BaseModel":
-                del_obj = search(my_args[1], all_objs)
-                if del_obj is not None:
-                    del all_objs[del_obj]
-                    models.storage.save()
-                else:
-                    print("** no instance found **")
-            elif my_args[0] == "User":
+            if my_args[0] in my_classes:
                 del_obj = search(my_args[1], all_objs)
                 if del_obj is not None:
                     del all_objs[del_obj]
@@ -103,12 +90,13 @@ class HBNBCommand(cmd.Cmd):
         the class name
         """
         my_args = parse(arg)
+        my_classes = ["BaseModel", "User"]
 
         all_objs = storage.all()
         obj_rep_str = []
 
         if len(my_args) == 1:
-            if my_args[0] == "BaseModel":
+            if my_args[0] in my_classes:
                 for k, v in all_objs.items():
                     obj_str = v.__str__()
                     obj_rep_str.append(obj_str)
@@ -126,9 +114,11 @@ class HBNBCommand(cmd.Cmd):
         updating attributes"""
 
         my_args = parse(arg)
+        my_classes = ["BaseModel", "User"]
+
         if len(my_args) == 0:
             print("** class name missing **")
-        elif my_args[0] != "BaseModel":
+        elif my_args[0] not in my_classes:
             print("** class doesn't exist **")
         elif len(my_args) == 1:
             print("** instance id missing **")
