@@ -46,3 +46,15 @@ by following this link https://www.airbnb.com/**
 	- This abstraction will also allow you to change the type of 
 	  storage easily without updating all of your codebase.
 	- The console will be a tool to validate this storage engine
+
+####     The Console Commands
+
+          - create <class name> = Creates a new object
+
+	  - show <class name> <obj id> = Prints str rep of an instance class
+
+	  - destroy <class name> <obj id> = Deletes a class instance
+
+	  - all = Prints all string rep of all class instances in a list
+
+	  - update <class name> <obj id> <attribute name> <value> = Updates an instace
