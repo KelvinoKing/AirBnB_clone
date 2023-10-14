@@ -35,11 +35,11 @@ class TestBaseModel(unittest.TestCase):
         """
 
         obj = BaseModel()
-        self.assertIsInstance(obj.my_number, int)
+        self.assertIsInstance(obj.update_at, int)
 
     def test_class_attribute_name(self):
         """Test if name attr is str
         """
 
         obj = BaseModel()
-        self.assertIsInstance(obj.name, str)
+        self.assertIsInstance(obj.id, str)
