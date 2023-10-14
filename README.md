@@ -58,3 +58,6 @@ by following this link https://www.airbnb.com/**
 	  - all = Prints all string rep of all class instances in a list
 
 	  - update <class name> <obj id> <attribute name> <value> = Updates an instace
+
+
+##### For more information about the project checkout the wiki page https://github.com/KelvinoKing/AirBnB_clone/wiki
