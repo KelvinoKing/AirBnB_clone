@@ -2,6 +2,13 @@
 """module json to serialize and deserialize instances of JSON file
 """
 import json
+from models.base_model import BaseModel
+from models.user import User
+from models.city import City
+from models.place import Place
+from models.review import Review
+from models.state import State
+from models.amenity import Amenity
 
 
 class FileStorage():
@@ -26,11 +33,14 @@ class FileStorage():
     def save(self):
         """serializes __objects to the JSON file (path: __file_path)
         """
-        with open(self.__file_path, 'w', encoding="utf-8") as f:
-            serialized_data = {
-                    k: v.to_dict() for k, v in self.__objects.items()
-                    }
-            json.dump(serialized_data, f)
+
+        new_dict = {}
+        for k, v in self.__objects.items():
+            new_dict[key] = v.to_dict()
+
+        json_string = json.dumps(new_dict)
+        with open(self.__file_path, 'w', encoding='utf-8') as f:
+            f.write(json_string)
 
     def reload(self):
         """deserializes the JSON file to __objects
@@ -41,37 +51,8 @@ class FileStorage():
         try:
             with open(self.__file_path, 'r', encoding="utf-8") as f:
                 data = json.load(f)
-                self.__objects = {
-                        k: self.create_model_instance(
-                            k, v) for k, v in data.items()}
+                for new_dict in data.values():
+                    my_class = new_dict['__class__']
+                    self.new(eval("{}({})".format(my_class, '**new_dict')))
         except FileNotFoundError:
             pass
-
-    def create_model_instance(self, key, data):
-        """create an object of the specified class
-        """
-        from models import base_model
-
-        class_name, obj_id = key.split(".")
-        if class_name == "User":
-            from models.user import User
-            model_class = User
-        elif class_name == "Place":
-            from models.place import Place
-            model_class = Place
-        elif class_name == "State":
-            from models.state import State
-            model_class = State
-        elif class_name == "City":
-            from models.city import City
-            model_class = City
-        elif class_name == "Amenity":
-            from models.amenity import Amenity
-            model_class = Amenity
-        elif class_name == "Review":
-            from models.review import Review
-            model_class = Review
-        else:
-            model_class = getattr(base_model, class_name)
-        obj = model_class(**data)
-        return obj

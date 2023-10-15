@@ -8,7 +8,7 @@ manipulating date and time
 """
 import uuid
 from datetime import datetime
-from models import storage
+import models
 
 
 class BaseModel(object):
@@ -21,11 +21,6 @@ class BaseModel(object):
         BaseModel class inherits from object class
         """
 
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.today()
-        self.updated_at = datetime.today()
-        storage.new(self)
-
         if kwargs:
             for key, value in kwargs.items():
                 if key != '__class__':
@@ -33,10 +28,11 @@ class BaseModel(object):
                         setattr(self, key, datetime.fromisoformat(value))
                     else:
                         setattr(self, key, value)
-        elif not kwargs:
+        else:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.today()
-            storage.new(self)
+            self.updated_at = self.created_at
+            models.storage.new(self)
 
     def __str__(self):
         """String representation of the BaseModel
@@ -51,7 +47,7 @@ class BaseModel(object):
         """
 
         self.updated_at = datetime.today()
-        storage.save()
+        models.storage.save()
 
     def to_dict(self):
         """returns a dictionary containing all keys/values of
