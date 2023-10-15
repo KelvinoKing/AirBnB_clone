@@ -44,7 +44,7 @@ class FileStorage():
                 self.__objects = {
                         k: self.create_model_instance(
                             k, v) for k, v in data.items()}
-        except Exception:
+        except FileNotFoundError:
             pass
 
     def create_model_instance(self, key, data):
