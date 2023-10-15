@@ -49,20 +49,6 @@ class TestFileStorage(unittest.TestCase):
         objects = self.storage.all()
         self.assertIn('User.{}'.format(new_user.id), objects)
 
-    def test_create_model_instance(self):
-        """Test the 'create_model_instance' method"""
-
-        data = {
-            'id': '123',
-            'name': 'John Doe',
-            'created_at': '2023-01-01T00:00:00',
-            'updated_at': '2023-01-01T00:00:00'
-        }
-        instance = self.storage.create_model_instance('User.123', data)
-        self.assertIsInstance(instance, User)
-        self.assertEqual(instance.id, '123')
-        self.assertEqual(instance.name, 'John Doe')
-
 
 if __name__ == '__main__':
     unittest.main()

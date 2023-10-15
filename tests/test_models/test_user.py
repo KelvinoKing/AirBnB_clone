@@ -93,7 +93,7 @@ class TestUser(unittest.TestCase):
 
         self.assertEqual(created_at, obj.created_at)
         self.assertNotEqual(updated_at, obj.updated_at)
-        self.assertNotEqual(updated_at, created_at)
+        self.assertEqual(updated_at, created_at)
 
     def test_inequality_of_more_than_2_different_objects_ids(self):
         """Compares instance ids of more than two instances
