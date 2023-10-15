@@ -37,6 +37,20 @@ class TestBaseModel(unittest.TestCase):
         obj = BaseModel()
         self.assertTrue(isinstance(obj.id, str))
 
+    def test_created_at_attr_is_datetime(self):
+        """Test if obj created_at attr is a datetime object
+        """
+
+        obj = BaseModel()
+        self.assertTrue(isinstance(obj.created_at, datetime))
+
+    def test_updated_at_attr_is_datetime(self):
+        """Test if obj updated_at attr is a datetime object
+        """
+
+        obj = BaseModel()
+        self.assertTrue(isinstance(obj.updated_at, datetime))
+
     def test_base_model_originates_from_object_class(self):
         """Tests if BaseModel class inherits from the python object class
         """
