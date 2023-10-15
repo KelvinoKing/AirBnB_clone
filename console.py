@@ -63,7 +63,7 @@ class HBNBCommand(cmd.Cmd):
             if my_args[0] in my_classes:
                 # Convert the dictionary of objects returned by storage.all()
                 # to a dictionary of dictionary of objects attributes
-                returned_obj_id = search(my_args[1], all_objs)
+                returned_obj_id = search(my_args[1], all_objs, my_args[0])
                 if returned_obj_id is not None:
                     print(all_objs[returned_obj_id])
                 else:
@@ -84,7 +84,7 @@ class HBNBCommand(cmd.Cmd):
         elif len(my_args) == 2:
             all_objs = storage.all()
             if my_args[0] in my_classes:
-                del_obj = search(my_args[1], all_objs)
+                del_obj = search(my_args[1], all_objs, my_args[0])
                 if del_obj is not None:
                     del all_objs[del_obj]
                     models.storage.save()
@@ -132,7 +132,7 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
         elif len(my_args) >= 2:
             all_obj = storage.all()
-            returned_obj_id = search(my_args[1], all_obj)
+            returned_obj_id = search(my_args[1], all_obj, my_args[0])
 
             if returned_obj_id is not None:
                 if len(my_args) == 2:
@@ -170,7 +170,7 @@ def parse(arg):
     return tuple(map(str, arg.split()))
 
 
-def search(obj_id, all_objs):
+def search(obj_id, all_objs, my_class):
     """searches for object and returns found object or None
     """
     new_objs = {}
@@ -185,7 +185,7 @@ def search(obj_id, all_objs):
 
         for key, value in new_dict.items():
             if key == 'id':
-                if obj_id == v[key]:
+                if obj_id == v[key] and my_class == v['__class__']:
                     return k
             else:
                 break
