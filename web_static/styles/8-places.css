@@ -34,7 +34,7 @@
 
 .title_box h2{
 	text-align:center;
-	margin:5px 0px 40px 32%;
+	margin:5px 0px 40px 32px;
 }
 
 .price_by_night{
@@ -52,7 +52,7 @@
 }
 
 .information{
-	height;80px;
+	height:80px;
 	display:flex;
 	justify-content:center;
 	align-items:center;
