@@ -11,3 +11,7 @@
 ***4-index.html*** -> *Search*
 
 ***5-index.html*** -> *More filters*
+
+***6-index.html*** -> *It's(h)over*
+
+***7-index.html*** -> *Display results*
