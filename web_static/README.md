@@ -5,3 +5,5 @@
 ***1-index.html*** -> *Head styling*
 
 ***2-index.html*** -> *CSS files*
+
+***3-index.html*** -> *Zoning done*
