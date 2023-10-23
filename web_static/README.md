@@ -7,3 +7,5 @@
 ***2-index.html*** -> *CSS files*
 
 ***3-index.html*** -> *Zoning done*
+
+***4-index.htm*** -> *Search*
