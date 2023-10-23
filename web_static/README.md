@@ -8,4 +8,6 @@
 
 ***3-index.html*** -> *Zoning done*
 
-***4-index.htm*** -> *Search*
+***4-index.html*** -> *Search*
+
+***5-index.html*** -> *More filters*
