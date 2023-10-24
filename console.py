@@ -19,7 +19,6 @@ class HBNBCommand(cmd.Cmd):
     """
 
     prompt = "(hbnb) "
-    global my_classes
     my_classes = [
             "BaseModel", "User", "Place", "City", "Amenity", "Review", "State"]
 
@@ -35,13 +34,12 @@ class HBNBCommand(cmd.Cmd):
         and prints the id
         """
         my_args = parse(arg)
-        global my_classes
 
         if len(my_args) == 0:
             print("** class name missing **")
         else:
             class_name = my_args[0]
-            if class_name in my_classes:
+            if class_name in self.my_classes:
                 obj = globals()[class_name]()
                 obj.save()
                 print(obj.id)
@@ -52,7 +50,6 @@ class HBNBCommand(cmd.Cmd):
         """Prints the string representation of an instance based on
         the class name and id"""
         my_args = parse(arg)
-        global my_classes
 
         if len(my_args) == 0:
             print("** class name missing **")
@@ -60,7 +57,7 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
         else:
             all_objs = storage.all()
-            if my_args[0] in my_classes:
+            if my_args[0] in self.my_classes:
                 key = '{}.{}'.format(my_args[0], my_args[1])
                 try:
                     obj = all_objs[key]
@@ -74,7 +71,6 @@ class HBNBCommand(cmd.Cmd):
         """Destroys an instance based on the class name and id
         """
         my_args = parse(arg)
-        global my_classes
 
         if len(my_args) == 0:
             print("** class name missing **")
@@ -83,7 +79,7 @@ class HBNBCommand(cmd.Cmd):
         elif len(my_args) == 2:
             all_objs = storage.all()
 
-            if my_args[0] in my_classes:
+            if my_args[0] in self.my_classes:
                 key = '{}.{}'.format(my_args[0], my_args[1])
                 try:
                     del all_objs[key]
@@ -98,13 +94,12 @@ class HBNBCommand(cmd.Cmd):
         the class name
         """
         my_args = parse(arg)
-        global my_classes
 
         all_objs = storage.all()
         obj_rep_str = []
 
         if len(my_args) >= 1:
-            if my_args[0] in my_classes:
+            if my_args[0] in self.my_classes:
                 for k, v in all_objs.items():
                     if k.startswith(my_args[0]):
                         obj_str = v.__str__()
@@ -123,11 +118,10 @@ class HBNBCommand(cmd.Cmd):
         updating attributes"""
 
         my_args = parse(arg)
-        global my_classes
 
         if len(my_args) == 0:
             print("** class name missing **")
-        elif my_args[0] not in my_classes:
+        elif my_args[0] not in self.my_classes:
             print("** class doesn't exist **")
         elif len(my_args) == 1:
             print("** instance id missing **")
